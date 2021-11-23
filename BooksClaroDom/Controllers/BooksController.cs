@@ -29,6 +29,12 @@ namespace BooksClaroDom.Controllers
         {
             return Ok(_service.GetById(id));
         }
+        [HttpDelete]
+        [Route("Delete/{id}")]
+        public IActionResult Delete(int id)
+        {
+            return Ok(_service.Delete(id));
+        }
 
         [HttpGet]
         [Route("GetPaged")]

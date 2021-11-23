@@ -21,7 +21,30 @@ namespace BooksClaroDom.Service.Services
         }
         public IConfiguration Configuration { get; }
 
-        public Task Delete(int id)
+        public async Task<HttpStatusCode> Delete(int id)
+        {
+            try
+            {
+                var result = new HttpStatusCode();
+                var apiUrl = Configuration["ApiUrl"];
+                var url = apiUrl + $"Books/{id}";
+                var client = new RestClient(url);
+                var getrequest = new RestRequest(Method.GET);
+                var response = client.Execute(getrequest);
+                return result = response.StatusCode;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
+        }
+
+        public Task Update(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Save(Book book)
         {
             throw new NotImplementedException();
         }
@@ -90,16 +113,6 @@ namespace BooksClaroDom.Service.Services
             {
                 throw new ArgumentException(ex.Message);
             }
-        }
-
-        public Task Save(Book book)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Update(int id)
-        {
-            throw new NotImplementedException();
         }
     }
 }
