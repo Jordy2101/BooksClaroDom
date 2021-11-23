@@ -21,9 +21,58 @@ namespace BooksClaroDom.Service.Services
         }
         public IConfiguration Configuration { get; }
 
-        public Task Delete(int id)
+        public async Task<HttpStatusCode> Save(Book book)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = new HttpStatusCode();
+                var apiUrl = Configuration["ApiUrl"];
+                var url = apiUrl + $"Books/{book}";
+                var client = new RestClient(url);
+                var getrequest = new RestRequest(Method.POST);
+                var response = client.Execute(getrequest);
+                return result = response.StatusCode;    
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
+        }
+
+        public async Task<HttpStatusCode> Delete(int id)
+        {
+            try
+            {
+                var result = new HttpStatusCode();
+                var apiUrl = Configuration["ApiUrl"];
+                var url = apiUrl + $"Books/{id}";
+                var client = new RestClient(url);
+                var getrequest = new RestRequest(Method.DELETE);
+                var response = client.Execute(getrequest);
+                return result = response.StatusCode;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
+        }
+
+        public async Task<HttpStatusCode> Update(int id)
+        {
+            try
+            {
+                var result = new HttpStatusCode();
+                var apiUrl = Configuration["ApiUrl"];
+                var url = apiUrl + $"Books/{id}";
+                var client = new RestClient(url);
+                var getrequest = new RestRequest(Method.PUT);
+                var response = client.Execute(getrequest);
+                return result = response.StatusCode;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
         }
 
         public async Task<List<Book>> GetAll()
@@ -62,19 +111,34 @@ namespace BooksClaroDom.Service.Services
             }
         }
 
-        public Task<object> GetPaged()
+        public async Task<object> GetPaged(BookFilter filter)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var data = GetAll();
+                if (filter.keyword != null)
+                {
+                    data.Result.Where(c=> c.Description.Contains(filter.keyword));
+                }
+                var result = PagedList<object>.Create(data.Result.AsQueryable(), filter.PageNumber, filter.PageSize);
+                if (result == null) { throw new ArgumentException("No existen registros con los parametros de busqueda"); }
+                var pagination = new
+                {
+                    totalCount = result.TotalCount,
+                    pageSize = result.PageSize,
+                    currentPage = result.CurrentPage,
+                    totalPage = result.TotalPages,
+                    HasNext = result.HasNext,
+                    HasPrevious = result.HasPrevious,
+                    data = result
+                };
 
-        public Task Save(Book book)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Update(int id)
-        {
-            throw new NotImplementedException();
+                return pagination;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
         }
     }
 }
