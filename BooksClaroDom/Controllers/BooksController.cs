@@ -1,4 +1,5 @@
 ﻿using BooksClaroDom.Attributes;
+using BooksClaroDom.Service.Dto;
 using BooksClaroDom.Service.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,13 @@ namespace BooksClaroDom.Controllers
         public IActionResult GetByOne(int id)
         {
             return Ok(_service.GetById(id));
+        }
+
+        [HttpGet]
+        [Route("GetPaged")]
+        public IActionResult GetPaged([FromQuery] BookFilter filter)
+        {
+            return Ok(_service.GetPaged(filter));
         }
     }
 }
