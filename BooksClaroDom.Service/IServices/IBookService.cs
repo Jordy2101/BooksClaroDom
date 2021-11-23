@@ -13,7 +13,7 @@ namespace BooksClaroDom.Service.IServices
         Task<object> GetPaged(BookFilter filter);
         Task<List<Book>> GetAll();
         Task<Book> GetById(int id);
-        Task Save(Book book);
+        Task<HttpStatusCode> Save(Book book);
         Task<HttpStatusCode> Delete(int id);
         Task<HttpStatusCode> Update(int id);
     }

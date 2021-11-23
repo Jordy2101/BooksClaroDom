@@ -25,6 +25,7 @@ namespace BooksClaroDom.Controllers
         }
 
         [HttpGet]
+        [Route("GetAllBook")]
         public IActionResult GetAllBook()
         {
             return Ok(_service.GetAll());
@@ -35,6 +36,13 @@ namespace BooksClaroDom.Controllers
         public IActionResult GetByOne(int id)
         {
             return Ok(_service.GetById(id));
+        }
+
+        [HttpPost]
+        [Route("Create")]
+        public IActionResult Create([FromBody] Book book)
+        {
+            return Ok(_service.Save(book));
         }
 
         [HttpPut]
