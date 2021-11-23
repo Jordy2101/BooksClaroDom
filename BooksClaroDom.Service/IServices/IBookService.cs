@@ -9,7 +9,7 @@ namespace BooksClaroDom.Service.IServices
 {
     public interface IBookService
     {
-        Task<object> GetPaged();
+        Task<object> GetPaged(BookFilter filter);
         Task<List<Book>> GetAll();
         Task<Book> GetById(int id);
         Task Save(Book book);
