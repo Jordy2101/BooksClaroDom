@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace BooksClaroDom.Service.IServices
         Task<List<Book>> GetAll();
         Task<Book> GetById(int id);
         Task Save(Book book);
-        Task Delete(int id);
+        Task<HttpStatusCode> Delete(int id);
         Task Update(int id);
     }
 }
