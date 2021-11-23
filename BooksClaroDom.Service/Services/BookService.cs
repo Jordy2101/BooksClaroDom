@@ -21,6 +21,11 @@ namespace BooksClaroDom.Service.Services
         }
         public IConfiguration Configuration { get; }
 
+        public Task Save(Book book)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<HttpStatusCode> Delete(int id)
         {
             try
@@ -39,14 +44,22 @@ namespace BooksClaroDom.Service.Services
             }
         }
 
-        public Task Update(int id)
+        public async Task<HttpStatusCode> Update(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task Save(Book book)
-        {
-            throw new NotImplementedException();
+            try
+            {
+                var result = new HttpStatusCode();
+                var apiUrl = Configuration["ApiUrl"];
+                var url = apiUrl + $"Books/{id}";
+                var client = new RestClient(url);
+                var getrequest = new RestRequest(Method.GET);
+                var response = client.Execute(getrequest);
+                return result = response.StatusCode;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
         }
 
         public async Task<List<Book>> GetAll()

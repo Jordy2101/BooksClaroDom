@@ -15,6 +15,6 @@ namespace BooksClaroDom.Service.IServices
         Task<Book> GetById(int id);
         Task Save(Book book);
         Task<HttpStatusCode> Delete(int id);
-        Task Update(int id);
+        Task<HttpStatusCode> Update(int id);
     }
 }
