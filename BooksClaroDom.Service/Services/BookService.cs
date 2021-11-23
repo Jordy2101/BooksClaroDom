@@ -44,9 +44,22 @@ namespace BooksClaroDom.Service.Services
             }
         }
 
-        public Task<Book> GetById(int id)
+        public async Task<Book> GetById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var apiUrl = Configuration["ApiUrl"];
+                var url = apiUrl + $"Books/{id}";
+                var client = new RestClient(url);
+                var getrequest = new RestRequest(Method.GET);
+                var response = client.Execute(getrequest);
+                var data = JsonConvert.DeserializeObject<Book>(response.Content);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
         }
 
         public Task<object> GetPaged()

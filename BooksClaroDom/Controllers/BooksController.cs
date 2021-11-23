@@ -22,5 +22,11 @@ namespace BooksClaroDom.Controllers
             return Ok(_service.GetAll());
         }
 
+        [HttpGet]
+        [Route("GetByOne/{id}")]
+        public IActionResult GetByOne(int id)
+        {
+            return Ok(_service.GetById(id));
+        }
     }
 }
